@@ -181,6 +181,25 @@ app.post('/verify/roblox', async (req, res) => {
   }
 });
 
+
+// Scan only (no Discord required)
+app.post('/scan/roblox', async (req, res) => {
+  const { robloxId } = req.body;
+  if (!robloxId || !/^\d+$/.test(robloxId)) return res.status(400).json({ error: 'Invalid Roblox ID.' });
+  try {
+    const [userR, badgesR, groupsR, inventoryR, rbxBadgesR, avatarR] = await Promise.allSettled([
+      rbxFetch(RBX.user(robloxId)), rbxFetch(RBX.badges(robloxId)), rbxFetch(RBX.groups(robloxId)),
+      rbxFetch(RBX.inventory(robloxId)), rbxFetch(RBX.rbxBadges(robloxId)), rbxFetch(RBX.avatar(robloxId)),
+    ]);
+    if (userR.status === 'rejected' || userR.value?.errors) return res.status(404).json({ error: 'Roblox user not found.' });
+    res.json({ success: true, roleAssigned: false, data: {
+      user: userR.value, badges: badgesR.value?.data||[], groups: groupsR.value?.data||[],
+      inventory: inventoryR.value?.data||[], rbxBadges: Array.isArray(rbxBadgesR.value)?rbxBadgesR.value:[],
+      avatarUrl: avatarR.value?.data?.[0]?.imageUrl||null,
+    }});
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 // Logout
 app.post('/auth/logout', (req, res) => { req.session.destroy(); res.json({ ok: true }); });
 
