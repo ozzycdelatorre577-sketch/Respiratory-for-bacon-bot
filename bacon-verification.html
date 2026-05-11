@@ -3,302 +3,140 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>BaconVerify — Roblox Account Verification</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>BaconVerify - Roblox Verification</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Archivo+Black&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --r:#e8344a;--r2:#c0392b;--r3:#ff6b6b;--r4:#ff8c42;
   --gold:#f5c842;--green:#22d68c;--purple:#a78bfa;
-  --bg:#09080a;--s1:#110d0e;--s2:#180f10;--s3:#1e1214;
+  --bg:#09080a;--s1:#110d0e;--s2:#180f10;
   --border:rgba(232,52,74,.2);--border2:rgba(232,52,74,.1);
   --t1:#fff;--t2:rgba(255,255,255,.65);--t3:rgba(255,255,255,.35);--t4:rgba(255,255,255,.15);
-  --glow:0 0 80px rgba(232,52,74,.18);
   --font:'Syne',sans-serif;--mono:'DM Mono',monospace;--display:'Archivo Black',sans-serif;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--t1);font-family:var(--font);min-height:100vh;overflow-x:hidden;cursor:default}
-
-/* ─── NOISE OVERLAY ─────────────────────────────────────── */
-body::before{
-  content:'';position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:0;opacity:.6;
-}
-
-/* ─── AMBIENT BLOBS ─────────────────────────────────────── */
+body{background:var(--bg);color:var(--t1);font-family:var(--font);min-height:100vh;overflow-x:hidden}
 .blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;animation:drift 18s ease-in-out infinite}
-.blob1{width:600px;height:600px;background:radial-gradient(#e8344a,#7b241c);top:-200px;left:-200px;animation-delay:0s}
+.blob1{width:600px;height:600px;background:radial-gradient(#e8344a,#7b241c);top:-200px;left:-200px}
 .blob2{width:400px;height:400px;background:radial-gradient(#ff8c42,#c0392b);bottom:-150px;right:-100px;animation-delay:-6s}
 .blob3{width:300px;height:300px;background:radial-gradient(#a78bfa,#6d28d9);top:40%;left:60%;animation-delay:-12s;opacity:.1}
 @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.97)}}
-
-/* ─── NAV ───────────────────────────────────────────────── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 40px;height:64px;
-  background:rgba(9,8,10,.8);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border2);
-}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(9,8,10,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2)}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--r),var(--r2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 16px rgba(232,52,74,.4)}
-.nav-logo-text{font-family:var(--display);font-size:18px;color:#fff;letter-spacing:-0.5px}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--r),var(--r2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-logo-text{font-family:var(--display);font-size:18px;color:#fff}
 .nav-logo-text span{color:var(--r3)}
 .nav-links{display:flex;align-items:center;gap:8px}
 .nav-link{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--t3);text-decoration:none;transition:color .2s,background .2s}
 .nav-link:hover{color:var(--t1);background:rgba(255,255,255,.06)}
-.nav-badge{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:700;background:var(--r);color:#fff;border:none;cursor:pointer;transition:all .2s}
-.nav-badge:hover{background:var(--r2);transform:translateY(-1px)}
-
-/* ─── HERO ──────────────────────────────────────────────── */
-.hero{
-  position:relative;z-index:1;
-  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:100px 24px 60px;text-align:center;
-}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(232,52,74,.1);border:1px solid rgba(232,52,74,.25);
-  border-radius:100px;padding:6px 16px;
-  font-size:12px;font-weight:700;color:var(--r3);letter-spacing:1.5px;text-transform:uppercase;
-  margin-bottom:28px;animation:fadeUp .6s .1s both;
-}
-.hero-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--r3);animation:blink 1.5s ease infinite}
+.nav-btn{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:700;background:var(--r);color:#fff;border:none;cursor:pointer;transition:all .2s;font-family:var(--font)}
+.nav-btn:hover{background:var(--r2);transform:translateY(-1px)}
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(232,52,74,.1);border:1px solid rgba(232,52,74,.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:700;color:var(--r3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .6s .1s both}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--r3);animation:blink 1.5s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
-.hero-title{
-  font-family:var(--display);font-size:clamp(52px,9vw,100px);line-height:.95;
-  letter-spacing:-2px;margin-bottom:24px;
-  animation:fadeUp .6s .2s both;
-}
-.hero-title .line1{display:block;color:#fff}
-.hero-title .line2{
-  display:block;
-  background:linear-gradient(100deg,var(--r3),var(--r),var(--r4));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
+.hero-title{font-family:var(--display);font-size:clamp(52px,9vw,100px);line-height:.95;letter-spacing:-2px;margin-bottom:24px;animation:fadeUp .6s .2s both}
+.l1{display:block;color:#fff}
+.l2{display:block;background:linear-gradient(100deg,var(--r3),var(--r),var(--r4));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero-sub{font-size:17px;color:var(--t2);max-width:480px;line-height:1.7;margin-bottom:48px;animation:fadeUp .6s .3s both}
 .hero-sub b{color:#fff}
-
-.hero-stats{
-  display:flex;gap:32px;margin-bottom:56px;
-  animation:fadeUp .6s .4s both;
-}
+.hero-stats{display:flex;gap:32px;margin-bottom:56px;animation:fadeUp .6s .4s both}
 .stat-pill{text-align:center}
 .stat-pill .num{font-family:var(--display);font-size:28px;color:#fff;line-height:1}
 .stat-pill .lbl{font-size:12px;color:var(--t3);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
-
 .scroll-hint{font-size:12px;color:var(--t4);animation:fadeUp .6s .6s both;display:flex;flex-direction:column;align-items:center;gap:8px}
 .scroll-arrow{width:20px;height:20px;border-right:2px solid var(--t4);border-bottom:2px solid var(--t4);transform:rotate(45deg);animation:bounce 2s ease infinite}
 @keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
-
-/* ─── SECTION ───────────────────────────────────────────── */
 .section{position:relative;z-index:1;padding:80px 24px}
 .section-inner{max-width:1000px;margin:0 auto}
-
-/* ─── FEATURES STRIP ────────────────────────────────────── */
-.features{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;
-  background:var(--border2);border:1px solid var(--border2);border-radius:20px;overflow:hidden;
-  margin-bottom:80px;
-}
-.feat{
-  background:var(--s1);padding:28px 24px;
-  transition:background .3s;
-}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:20px;overflow:hidden;margin-bottom:80px}
+.feat{background:var(--s1);padding:28px 24px;transition:background .3s}
 .feat:hover{background:var(--s2)}
 .feat-icon{font-size:28px;margin-bottom:14px}
 .feat-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
 .feat-desc{font-size:13px;color:var(--t3);line-height:1.6}
-
-/* ─── MAIN CARD ─────────────────────────────────────────── */
-.card-wrap{
-  max-width:560px;margin:0 auto;
-  animation:fadeUp .7s .1s both;
-}
-.card{
-  background:var(--s1);
-  border:1px solid var(--border);border-radius:24px;
-  box-shadow:var(--glow),0 0 0 1px rgba(232,52,74,.05);
-  overflow:hidden;position:relative;
-}
-.card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(232,52,74,.6),rgba(255,140,66,.4),transparent);
-}
-
-/* card header */
-.card-header{
-  padding:32px 32px 24px;
-  background:linear-gradient(180deg,rgba(232,52,74,.06) 0%,transparent 100%);
-  border-bottom:1px solid var(--border2);
-  display:flex;align-items:center;gap:20px;
-}
+.card-wrap{max-width:560px;margin:0 auto;animation:fadeUp .7s .1s both}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:24px;box-shadow:0 0 80px rgba(232,52,74,.18);overflow:hidden;position:relative}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(232,52,74,.6),rgba(255,140,66,.4),transparent)}
+.card-header{padding:28px 32px 20px;background:linear-gradient(180deg,rgba(232,52,74,.06) 0%,transparent 100%);border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:20px}
 .mascot{flex-shrink:0;animation:float 3.5s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.card-header-text{}
 .card-header-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
 .card-header-title{font-family:var(--display);font-size:26px;color:#fff;line-height:1;margin-bottom:4px}
 .card-header-title span{color:var(--r3)}
 .card-header-sub{font-size:13px;color:var(--t3);line-height:1.5}
-
-/* steps */
-.steps{padding:0 32px;margin-top:24px;display:flex;flex-direction:column;gap:0}
-.step{
-  display:flex;gap:16px;position:relative;
-  padding-bottom:28px;
-}
+.card-body{padding:24px 32px 0}
+.divider{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin:16px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.discord-btn{display:flex;align-items:center;gap:10px;width:100%;padding:13px 16px;background:#5865F2;border:none;border-radius:11px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .2s;box-shadow:0 4px 16px rgba(88,101,242,.35)}
+.discord-btn:hover{background:#4752c4;transform:translateY(-1px)}
+.discord-connected{display:none;align-items:center;gap:12px;background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.25);border-radius:11px;padding:12px 14px}
+.steps{display:flex;flex-direction:column;gap:0;margin-top:20px}
+.step{display:flex;gap:16px;position:relative;padding-bottom:24px}
 .step:last-child{padding-bottom:0}
-.step::before{
-  content:'';position:absolute;left:15px;top:32px;bottom:0;
-  width:1px;background:var(--border2);
-}
+.step::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:1px;background:var(--border2)}
 .step:last-child::before{display:none}
-.step-num{
-  width:32px;height:32px;border-radius:10px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--r),var(--r2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:800;color:#fff;
-  box-shadow:0 0 16px rgba(232,52,74,.35);
-  position:relative;z-index:1;
-}
+.step-num{width:32px;height:32px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,var(--r),var(--r2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;box-shadow:0 0 16px rgba(232,52,74,.35);position:relative;z-index:1;transition:all .3s}
 .step-num.done{background:linear-gradient(135deg,var(--green),#16a34a);box-shadow:0 0 16px rgba(34,214,140,.3)}
-.step-num.done::after{content:'✓';font-size:14px}
+.step-num.done::after{content:'checkmark';font-size:14px}
 .step-body{flex:1;padding-top:5px}
-.step-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:.3px}
-.step-desc{font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.5}
-
-/* ── inputs ── */
-.field{
-  width:100%;background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.08);border-radius:11px;
-  padding:12px 14px;color:#fff;font-size:14px;font-family:var(--mono);
-  outline:none;transition:border-color .2s,box-shadow .2s;
-}
+.step-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
+.step-desc{font-size:12px;color:var(--t3);margin-bottom:10px;line-height:1.5}
+.field{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:12px 14px;color:#fff;font-size:14px;font-family:var(--mono);outline:none;transition:border-color .2s,box-shadow .2s}
 .field:focus{border-color:rgba(232,52,74,.5);box-shadow:0 0 0 3px rgba(232,52,74,.1)}
 .field::placeholder{color:var(--t4);font-family:var(--font)}
 .field-hint{font-size:11px;color:var(--t4);margin-top:6px;font-family:var(--mono)}
-
-/* ── fake hcaptcha ── */
-.hcap-box{
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);
-  border-radius:11px;padding:14px 16px;cursor:pointer;
-  transition:all .2s;user-select:none;position:relative;overflow:hidden;
-}
-.hcap-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(34,214,140,.05),transparent);opacity:0;transition:opacity .3s}
+.hcap-box{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:14px 16px;cursor:pointer;transition:all .2s;user-select:none}
 .hcap-box.solved{border-color:rgba(34,214,140,.35);box-shadow:0 0 12px rgba(34,214,140,.1)}
-.hcap-box.solved::before{opacity:1}
 .hcap-left{display:flex;align-items:center;gap:12px}
-.hcap-check{
-  width:22px;height:22px;border-radius:6px;flex-shrink:0;
-  border:2px solid rgba(255,255,255,.15);background:transparent;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .25s;
-}
-.hcap-box.solved .hcap-check{background:var(--green);border-color:var(--green);box-shadow:0 0 10px rgba(34,214,140,.4)}
+.hcap-check{width:22px;height:22px;border-radius:6px;flex-shrink:0;border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;transition:all .25s}
+.hcap-box.solved .hcap-check{background:var(--green);border-color:var(--green)}
 .hcap-check-inner{width:10px;height:10px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg) translate(-1px,-2px);opacity:0;transition:opacity .2s .1s}
 .hcap-box.solved .hcap-check-inner{opacity:1}
 .hcap-label{font-size:13px;color:var(--t2);font-weight:500}
 .hcap-box.solved .hcap-label{color:var(--green)}
 .hcap-right{display:flex;flex-direction:column;align-items:center;gap:3px}
-.hcap-logo{
-  width:28px;height:28px;border-radius:7px;
-  background:linear-gradient(135deg,#00c6ff,#0072ff);
-  display:flex;align-items:center;justify-content:center;font-size:14px;
-}
+.hcap-logo{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#00c6ff,#0072ff);display:flex;align-items:center;justify-content:center;font-size:14px}
 .hcap-text{font-size:9px;color:var(--t4);font-family:var(--mono);text-align:center}
-
-/* ── verify button ── */
-.card-footer{padding:24px 32px 28px}
-.verify-btn{
-  width:100%;padding:16px;
-  background:linear-gradient(135deg,var(--r) 0%,var(--r2) 100%);
-  border:none;border-radius:13px;color:#fff;
-  font-family:var(--display);font-size:16px;letter-spacing:.5px;
-  cursor:pointer;position:relative;overflow:hidden;
-  box-shadow:0 4px 24px rgba(232,52,74,.45),0 1px 0 rgba(255,255,255,.1) inset;
-  transition:transform .15s,box-shadow .2s,opacity .2s;
-}
-.verify-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);
-}
+.card-footer{padding:20px 32px 28px}
+.verify-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--r) 0%,var(--r2) 100%);border:none;border-radius:13px;color:#fff;font-family:var(--display);font-size:16px;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(232,52,74,.45);transition:transform .15s,box-shadow .2s,opacity .2s}
 .verify-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 32px rgba(232,52,74,.55)}
 .verify-btn:active:not(:disabled){transform:translateY(0)}
 .verify-btn:disabled{opacity:.55;cursor:not-allowed}
 .verify-btn.loading{animation:pulse 1.2s ease infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
 .btn-inner{display:flex;align-items:center;justify-content:center;gap:10px;position:relative;z-index:1}
-
-.tos-line{text-align:center;font-size:11px;color:var(--t4);margin-top:12px;line-height:1.6}
+.tos-line{text-align:center;font-size:11px;color:var(--t4);margin-top:12px}
 .tos-line a{color:rgba(232,52,74,.7);text-decoration:none}
-
-/* ── error ── */
-.err{
-  display:none;margin:0 32px 16px;
-  background:rgba(232,52,74,.1);border:1px solid rgba(232,52,74,.3);
-  border-radius:10px;padding:10px 14px;
-  font-size:12px;color:#ff9eb5;line-height:1.5;
-}
-
-/* ─── RESULTS ───────────────────────────────────────────── */
+.err{display:none;margin:0 0 16px;background:rgba(232,52,74,.1);border:1px solid rgba(232,52,74,.3);border-radius:10px;padding:10px 14px;font-size:12px;color:#ff9eb5;line-height:1.5}
 #results{display:none;position:relative;z-index:1;padding:0 24px;max-width:560px;margin:0 auto}
-
-.res-card{
-  background:var(--s1);border:1px solid var(--border);border-radius:20px;
-  overflow:hidden;margin-bottom:12px;
-  animation:fadeUp .4s ease both;
-}
-.res-profile{
-  display:flex;align-items:center;gap:18px;
-  padding:24px;
-  background:linear-gradient(135deg,rgba(232,52,74,.08),rgba(255,140,66,.04));
-  border-bottom:1px solid var(--border2);
-}
+.res-card{background:var(--s1);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:12px;animation:fadeUp .4s ease both}
+.res-profile{display:flex;align-items:center;gap:18px;padding:24px;background:linear-gradient(135deg,rgba(232,52,74,.08),rgba(255,140,66,.04));border-bottom:1px solid var(--border2)}
 .res-avatar{width:72px;height:72px;border-radius:14px;border:2px solid rgba(232,52,74,.35);object-fit:cover;flex-shrink:0}
-.res-avatar-ph{width:72px;height:72px;border-radius:14px;background:rgba(232,52,74,.12);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;border:2px solid rgba(232,52,74,.2)}
+.res-avatar-ph{width:72px;height:72px;border-radius:14px;background:rgba(232,52,74,.12);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
 .res-name{font-family:var(--display);font-size:22px;color:#fff;margin-bottom:4px}
 .res-handle{font-size:12px;color:var(--t3);font-family:var(--mono);margin-bottom:10px}
-.chip{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:3px 10px;border-radius:100px;
-  font-size:11px;font-weight:700;margin-right:5px;margin-bottom:4px;
-}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;margin-right:5px;margin-bottom:4px}
 .chip-red{background:rgba(232,52,74,.18);border:1px solid rgba(232,52,74,.3);color:var(--r3)}
 .chip-green{background:rgba(34,214,140,.12);border:1px solid rgba(34,214,140,.25);color:var(--green)}
-.chip-gold{background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);color:var(--gold)}
 .chip-purple{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);color:var(--purple)}
-
-/* stats bar */
-.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid var(--border2)}
+.chip-discord{background:rgba(88,101,242,.15);border:1px solid rgba(88,101,242,.3);color:#818cf8}
+.chip-gold{background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);color:var(--gold)}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border2)}
 .res-stat{padding:16px;text-align:center;border-right:1px solid var(--border2)}
 .res-stat:last-child{border-right:none}
 .res-stat-n{font-family:var(--display);font-size:24px;color:#fff}
 .res-stat-l{font-size:10px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
-
-/* bio */
 .res-bio{padding:16px 24px;font-size:13px;color:var(--t2);line-height:1.65;border-bottom:1px solid var(--border2);font-style:italic}
-
-/* tab panel */
 .res-tabs{display:flex;border-bottom:1px solid var(--border2)}
-.res-tab{
-  flex:1;padding:14px;text-align:center;font-size:12px;font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;color:var(--t3);
-  cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;
-}
+.res-tab{flex:1;padding:14px;text-align:center;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
 .res-tab:hover{color:var(--t1)}
 .res-tab.on{color:var(--r3);border-bottom-color:var(--r3)}
-.res-panel{display:none;max-height:240px;overflow-y:auto;padding:12px}
-.res-panel.on{display:flex;flex-direction:column;gap:6px}
-.r-row{
-  display:flex;align-items:center;gap:12px;
-  background:rgba(255,255,255,.03);border-radius:10px;padding:10px 12px;
-  border:1px solid rgba(255,255,255,.05);transition:background .2s;
-}
+.res-panel{display:none;max-height:240px;overflow-y:auto;padding:12px;flex-direction:column;gap:6px}
+.res-panel.on{display:flex}
+.r-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);border-radius:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.05)}
 .r-row:hover{background:rgba(255,255,255,.05)}
 .r-icon{width:38px;height:38px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px}
 .r-icon.red{background:rgba(232,52,74,.15)}
@@ -308,472 +146,79 @@ nav{
 .r-sub{font-size:11px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--mono)}
 .r-badge{margin-left:auto;flex-shrink:0;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.25);color:var(--purple);font-family:var(--mono)}
 .empty-panel{text-align:center;padding:24px;font-size:13px;color:var(--t4);font-style:italic}
-
-/* official badges */
 .ob-wrap{padding:16px 24px;border-top:1px solid var(--border2)}
-.ob-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ob-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
 .ob-pills{display:flex;flex-wrap:wrap;gap:6px}
 .ob-pill{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.2);color:var(--gold)}
-
-/* ─── TRUST STRIP ───────────────────────────────────────── */
-.trust{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;
-  background:var(--border2);border:1px solid var(--border2);border-radius:20px;overflow:hidden;
-  margin-top:56px;
-}
-.trust-item{background:var(--s1);padding:20px;display:flex;align-items:center;gap:12px}
-.trust-icon{font-size:22px;flex-shrink:0}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:20px;overflow:hidden;margin-top:56px}
+.trust-item{background:var(--s1);padding:18px;display:flex;align-items:center;gap:12px}
+.trust-icon{font-size:20px;flex-shrink:0}
 .trust-label{font-size:13px;font-weight:700;color:#fff}
 .trust-sub{font-size:11px;color:var(--t3);margin-top:1px}
-
-/* ─── FOOTER ────────────────────────────────────────────── */
-footer{
-  position:relative;z-index:1;
-  border-top:1px solid var(--border2);
-  padding:32px 40px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-}
+footer{position:relative;z-index:1;border-top:1px solid var(--border2);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .foot-logo{font-family:var(--display);font-size:16px;color:var(--t3)}
 .foot-logo span{color:var(--r3)}
 .foot-links{display:flex;gap:20px}
 .foot-link{font-size:12px;color:var(--t4);text-decoration:none;transition:color .2s}
 .foot-link:hover{color:var(--t1)}
 .foot-copy{font-size:11px;color:var(--t4);font-family:var(--mono)}
-
-/* ─── UTILS ─────────────────────────────────────────────── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{display:inline-block;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;animation:spin .7s linear infinite}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
 .shake{animation:shake .5s ease}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(232,52,74,.25);border-radius:4px}
-
-/* drip svg */
-.drip{display:block;width:100%;height:24px;overflow:visible}
 </style>
 </head>
 <body>
+<div class="blobs"><div class="blob blob1"></div><div class="blob blob2"></div><div class="blob blob3"></div></div>
 
-<div class="blobs">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="blob blob3"></div>
-</div>
-
-<!-- ── NAV ──────────────────────────────────────────────── -->
 <nav>
-  <a class="nav-logo" href="#">
-    <div class="nav-logo-icon">🥓</div>
-    <span class="nav-logo-text">Bacon<span>Verify</span></span>
-  </a>
+  <a class="nav-logo" href="#"><div class="nav-logo-icon">🥓</div><span class="nav-logo-text">Bacon<span>Verify</span></span></a>
   <div class="nav-links">
     <a class="nav-link" href="#verify">Verify</a>
     <a class="nav-link" href="#features">Features</a>
-    <button class="nav-badge" onclick="scrollToVerify()">Get Started →</button>
+    <button class="nav-btn" onclick="document.getElementById('verify').scrollIntoView({behavior:'smooth'})">Get Started</button>
   </div>
 </nav>
 
-<!-- ── HERO ─────────────────────────────────────────────── -->
 <section class="hero">
-  <div class="hero-eyebrow">
-    <span></span> Live Roblox Account Scanner
-  </div>
-  <h1 class="hero-title">
-    <span class="line1">Verify Your</span>
-    <span class="line2">Bacon Status</span>
-  </h1>
-  <p class="hero-sub">
-    Drop your Roblox ID. We'll scan your <b>badges, groups, and inventory</b> in real-time — no login required.
-  </p>
+  <div class="eyebrow"><span></span> Live Roblox Account Scanner</div>
+  <h1 class="hero-title"><span class="l1">Verify Your</span><span class="l2">Bacon Status</span></h1>
+  <p class="hero-sub">Drop your Roblox ID. We scan your <b>badges, groups, and inventory</b> in real-time.</p>
   <div class="hero-stats">
     <div class="stat-pill"><div class="num">100%</div><div class="lbl">Free</div></div>
     <div class="stat-pill"><div class="num">&lt;3s</div><div class="lbl">Scan Time</div></div>
     <div class="stat-pill"><div class="num">Live</div><div class="lbl">Roblox API</div></div>
   </div>
-  <div class="scroll-hint">
-    <div class="scroll-arrow"></div>
-    scroll to verify
-  </div>
+  <div class="scroll-hint"><div class="scroll-arrow"></div>scroll to verify</div>
 </section>
 
-<!-- ── FEATURES ──────────────────────────────────────────── -->
 <section class="section" id="features">
   <div class="section-inner">
     <div class="features">
-      <div class="feat">
-        <div class="feat-icon">🏅</div>
-        <div class="feat-title">Badge Scanner</div>
-        <div class="feat-desc">Pulls 
-         </div>
-      <div class="feat">
-        <div class="feat-icon">👥</div>
-        <div class="feat-title">Group Check</div>
-        <div class="feat-desc">Lists all communities you're in, your role, rank, and member counts.</div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">🎒</div>
-        <div class="feat-title">Inventory Peek</div>
-        <div class="feat-desc">Displays public gear, hats, and accessories from your catalog.</div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">⭐</div>
-        <div class="feat-title">Official Badges</div>
-        <div class="feat-desc">Shows Roblox-issued badges like Veteran, Administrator, and more.</div>
-      </div>
+      <div class="feat"><div class="feat-icon">🏅</div><div class="feat-title">Badge Scanner</div><div class="feat-desc">Pulls your last 25 earned game badges with names and descriptions.</div></div>
+      <div class="feat"><div class="feat-icon">👥</div><div class="feat-title">Group Check</div><div class="feat-desc">Lists all communities, your role, rank, and member counts.</div></div>
+      <div class="feat"><div class="feat-icon">🎒</div><div class="feat-title">Inventory Peek</div><div class="feat-desc">Displays public gear, hats, and accessories from your catalog.</div></div>
+      <div class="feat"><div class="feat-icon">⭐</div><div class="feat-title">Official Badges</div><div class="feat-desc">Shows Roblox-issued badges like Veteran, Administrator, and more.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ── VERIFY CARD ───────────────────────────────────────── -->
 <section class="section" id="verify" style="padding-top:0">
   <div class="section-inner">
     <div class="card-wrap">
       <div class="card" id="mainCard">
-
-        <!-- card header -->
         <div class="card-header">
           <div class="mascot">
-            <svg viewBox="0 0 80 110" width="60" height="86">
+            <svg viewBox="0 0 80 110" width="58" height="84">
               <defs>
-                <linearGradient id="mg2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#e74c3c"/><stop offset="50%" stop-color="#f5cba7"/><stop offset="100%" stop-color="#c0392b"/>
-                </linearGradient>
-                <linearGradient id="cg2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#f4d03f"/><stop offset="100%" stop-color="#d4ac0d"/>
-                </linearGradient>
+                <linearGradient id="mg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="50%" stop-color="#f5cba7"/><stop offset="100%" stop-color="#c0392b"/></linearGradient>
+                <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f4d03f"/><stop offset="100%" stop-color="#d4ac0d"/></linearGradient>
               </defs>
-              <polygon points="25,16 30,6 37,13 44,3 51,13 58,6 63,16" fill="url(#cg2)"/>
+              <polygon points="25,16 30,6 37,13 44,3 51,13 58,6 63,16" fill="url(#cg)"/>
               <circle cx="37" cy="12" r="2.5" fill="#e74c3c"/><circle cx="25" cy="15" r="1.8" fill="#e74c3c"/><circle cx="63" cy="15" r="1.8" fill="#e74c3c"/>
-              <path d="M20,20 Q15,33 18,56 Q20,70 22,80 Q38,87 58,80 Q60,70 62,56 Q65,33 60,20 Q45,13 35,16 Q25,13 20,20 Z" fill="url(#mg2)"/>
+              <path d="M20,20 Q15,33 18,56 Q20,70 22,80 Q38,87 58,80 Q60,70 62,56 Q65,33 60,20 Q45,13 35,16 Q25,13 20,20 Z" fill="url(#mg)"/>
               <path d="M22,28 Q38,23 58,28" stroke="#c0392b" stroke-width="1.8" fill="none" opacity="0.5"/>
               <path d="M22,40 Q38,35 58,40" stroke="#c0392b" stroke-width="1.8" fill="none" opacity="0.5"/>
-              <path d="M22,52 Q38,47 58,52" stroke="#c0392b" stroke-width="1.8" fill="none" opacity="0.5"/>
-              <rect x="26" y="33" width="11" height="7" rx="3" fill="#111"/><rect x="41" y="33" width="11" height="7" rx="3" fill="#111"/>
-              <line x1="37" y1="37" x2="41" y2="37" stroke="#111" stroke-width="1.5"/>
-              <path d="M30,52 Q38,59 50,52" stroke="#7b241c" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <path d="M20,43 Q10,48 12,55" stroke="#e74c3c" stroke-width="4" fill="none" stroke-linecap="round"/>
-              <path d="M60,43 Q70,48 68,55" stroke="#e74c3c" stroke-width="4" fill="none" stroke-linecap="round"/>
-              <path d="M30,80 Q28,92 30,103" stroke="#c0392b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-              <path d="M50,80 Q52,92 50,103" stroke="#c0392b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="card-header-text">
-            <div class="card-header-label">🥓 BaconVerify</div>
-            <div class="card-header-title">Let's get you <span>verified</span></div>
-            <div class="card-header-sub">Paste your User ID below — we scan the rest.</div>
-          </div>
-        </div>
-
-        <!-- steps -->
-        <div class="steps">
-
-          <!-- step 1 -->
-          <div class="step">
-            <div class="step-num" id="sn1">1</div>
-            <div class="step-body">
-              <div class="step-title">Enter your Roblox User ID</div>
-              <div class="step-desc">Numbers only — find it in your profile URL.</div>
-              <input class="field" id="userId" type="text" inputmode="numeric" placeholder="e.g. 1  or  156  or  261" oninput="onIdInput()"/>
-              <div class="field-hint">roblox.com/users/<span id="idPreview" style="color:rgba(232,52,74,.6)">YOUR_ID</span>/profile</div>
-            </div>
-          </div>
-
-          <!-- step 2 -->
-          <div class="step">
-            <div class="step-num" id="sn2">2</div>
-            <div class="step-body">
-              <div class="step-title">Human verification</div>
-              <div class="step-desc">Quick check — click the box below.</div>
-              <div class="hcap-box" id="hcapBox" onclick="solveCaptcha()">
-                <div class="hcap-left">
-                  <div class="hcap-check"><div class="hcap-check-inner"></div></div>
-                  <span class="hcap-label" id="hcapLabel">I am not a robot</span>
-                </div>
-                <div class="hcap-right">
-                  <div class="hcap-logo">🔒</div>
-                  <div class="hcap-text">hCaptcha<br>Privacy · Terms</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- step 3 -->
-          <div class="step">
-            <div class="step-num" id="sn3">3</div>
-            <div class="step-body">
-              <div class="step-title">Scan &amp; verify</div>
-              <div class="step-desc">We'll pull your badges, groups, and inventory in real-time.</div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="err" id="errBox"></div>
-
-        <div class="card-footer">
-          <button class="verify-btn" id="verifyBtn" onclick="startScan()">
-            <div class="btn-inner">🥓 SCAN &amp; VERIFY ME</div>
-          </button>
-          <div class="tos-line">🔒 By verifying you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></div>
-        </div>
-
-      </div><!-- /card -->
-
-      <!-- TRUST STRIP -->
-      <div class="trust">
-        <div class="trust-item"><div class="trust-icon">🛡️</div><div><div class="trust-label">Secure</div><div class="trust-sub">Read-only API</div></div></div>
-        <div class="trust-item"><div class="trust-icon">⚡</div><div><div class="trust-label">Instant</div><div class="trust-sub">Under 3 seconds</div></div></div>
-        <div class="trust-item"><div class="trust-icon">🔓</div><div><div class="trust-label">No Login</div><div class="trust-sub">Public data only</div></div></div>
-        <div class="trust-item"><div class="trust-icon">🥓</div><div><div class="trust-label">Bacon</div><div class="trust-sub">Energy powered</div></div></div>
-      </div>
-    </div><!-- /card-wrap -->
-  </div>
-</section>
-
-<!-- ── RESULTS ───────────────────────────────────────────── -->
-<div id="results" style="padding-bottom:60px">
-  <div style="max-width:560px;margin:0 auto;padding:0 24px">
-
-    <div style="font-family:'Archivo Black',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:flex;align-items:center;gap:10px">
-      <div style="height:1px;flex:1;background:var(--border2)"></div>
-      SCAN RESULTS
-      <div style="height:1px;flex:1;background:var(--border2)"></div>
-    </div>
-
-    <!-- profile -->
-    <div class="res-card" id="resCard">
-      <div class="res-profile">
-        <div id="resAvatarWrap"></div>
-        <div style="min-width:0">
-          <div class="res-name" id="resName"></div>
-          <div class="res-handle" id="resHandle"></div>
-          <div id="resChips"></div>
-        </div>
-      </div>
-      <div id="resBio" class="res-bio" style="display:none"></div>
-      <div class="res-stats">
-        <div class="res-stat"><div class="res-stat-n" id="sBadges">—</div><div class="res-stat-l">Badges</div></div>
-        <div class="res-stat"><div class="res-stat-n" id="sGroups">—</div><div class="res-stat-l">Groups</div></div>
-        <div class="res-stat"><div class="res-stat-n" id="sInv">—</div><div class="res-stat-l">Inventory</div></div>
-      </div>
-
-      <!-- tabs -->
-      <div class="res-tabs">
-        <div class="res-tab on" onclick="resTab('badges',this)">🏅 Badges</div>
-        <div class="res-tab" onclick="resTab('groups',this)">👥 Groups</div>
-        <div class="res-tab" onclick="resTab('inventory',this)">🎒 Inventory</div>
-      </div>
-      <div class="res-panel on" id="rp-badges"></div>
-      <div class="res-panel" id="rp-groups"></div>
-      <div class="res-panel" id="rp-inventory"></div>
-
-      <div id="ob-section" class="ob-wrap" style="display:none">
-        <div class="ob-label">⭐ Official Roblox Badges</div>
-        <div class="ob-pills" id="ob-pills"></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ── FOOTER ────────────────────────────────────────────── -->
-<footer>
-  <div class="foot-logo">Bacon<span>Verify</span></div>
-  <div class="foot-links">
-    <a class="foot-link" href="#">Privacy</a>
-    <a class="foot-link" href="#">Terms</a>
-    <a class="foot-link" href="#">API</a>
-    <a class="foot-link" href="#">GitHub</a>
-  </div>
-  <div class="foot-copy">© 2026 BaconVerify — Not affiliated with Roblox Corp.</div>
-</footer>
-
-<script>
-// ─── state ──────────────────────────────────────────────────────
-let captchaSolved = false;
-
-function scrollToVerify(){ document.getElementById('verify').scrollIntoView({behavior:'smooth'}) }
-
-// ─── id input ───────────────────────────────────────────────────
-function onIdInput(){
-  const v = document.getElementById('userId').value.trim();
-  document.getElementById('idPreview').textContent = v || 'YOUR_ID';
-  if(v) markStep(1);
-  hideErr();
-}
-
-// ─── fake captcha ────────────────────────────────────────────────
-function solveCaptcha(){
-  if(captchaSolved) return;
-  // quick visual "loading" then resolve
-  const box   = document.getElementById('hcapBox');
-  const label = document.getElementById('hcapLabel');
-  label.textContent = 'Verifying…';
-  setTimeout(()=>{
-    captchaSolved = true;
-    box.classList.add('solved');
-    label.textContent = 'Verified!';
-    markStep(2);
-  }, 700 + Math.random()*400);
-}
-
-// ─── step markers ───────────────────────────────────────────────
-function markStep(n){
-  const el = document.getElementById('sn'+n);
-  el.classList.add('done');
-  el.textContent='';
-}
-
-// ─── error ──────────────────────────────────────────────────────
-function showErr(msg){const b=document.getElementById('errBox');b.textContent='⚠️ '+msg;b.style.display='block'}
-function hideErr(){document.getElementById('errBox').style.display='none'}
-
-// ─── proxy fetch ─────────────────────────────────────────────────
-async function rbx(url){
-  const proxies=[
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-    `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  ];
-  for(const p of proxies){
-    try{
-      const r=await fetch(p,{signal:AbortSignal.timeout(9000)});
-      if(!r.ok) continue;
-      return await r.json();
-    }catch{}
-  }
-  throw new Error('Could not reach Roblox API — both proxies failed. Try again in a moment.');
-}
-
-// ─── set button state ────────────────────────────────────────────
-function setBtn(loading){
-  const b=document.getElementById('verifyBtn');
-  b.disabled=loading;
-  b.querySelector('.btn-inner').innerHTML=loading
-    ? '<div class="spin"></div> Sizzling…'
-    : '🥓 SCAN &amp; VERIFY ME';
-  b.classList.toggle('loading',loading);
-}
-
-// ─── main scan ───────────────────────────────────────────────────
-async function startScan(){
-  hideErr();
-  const id=document.getElementById('userId').value.trim();
-  if(!id||!/^\d+$/.test(id)){
-    showErr('Please enter a valid numeric Roblox User ID.');
-    shake(); return;
-  }
-  if(!captchaSolved){
-    showErr('Please complete the verification check first!');
-    shake(); return;
-  }
-  setBtn(true);
-  document.getElementById('results').style.display='none';
-
-  try{
-    const [userRes,badgesRes,groupsRes,inventoryRes,robloxBadgesRes]=await Promise.all([
-      rbx(`https://users.roblox.com/v1/users/${id}`),
-      rbx(`https://badges.roblox.com/v1/users/${id}/badges?limit=25&sortOrder=Desc`),
-      rbx(`https://groups.roblox.com/v1/users/${id}/groups/roles`),
-      rbx(`https://inventory.roblox.com/v2/users/${id}/inventory?assetTypes=8,17,18,19&limit=25&sortOrder=Desc`),
-      rbx(`https://accountinformation.roblox.com/v1/users/${id}/roblox-badges`),
-    ]);
-
-    if(userRes.errors||!userRes.name) throw new Error(userRes.errors?.[0]?.message||'User not found — double-check the ID.');
-
-    let avatarUrl=null;
-    try{
-      const av=await rbx(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png&isCircular=false`);
-      avatarUrl=av?.data?.[0]?.imageUrl||null;
-    }catch{}
-
-    markStep(3);
-    render({
-      user:userRes, avatarUrl,
-      badges:badgesRes?.data||[],
-      groups:groupsRes?.data||[],
-      inventory:inventoryRes?.data||[],
-      robloxBadges:Array.isArray(robloxBadgesRes)?robloxBadgesRes:[],
-    });
-
-  }catch(e){
-    showErr(e.message||'Something went wrong. Try again.');
-  }finally{
-    setBtn(false);
-  }
-}
-
-function shake(){
-  const c=document.getElementById('mainCard');
-  c.classList.add('shake');
-  setTimeout(()=>c.classList.remove('shake'),600);
-}
-
-// ─── render results ──────────────────────────────────────────────
-function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
-function render({user,avatarUrl,badges,groups,inventory,robloxBadges}){
-  // avatar
-  const aw=document.getElementById('resAvatarWrap');
-  aw.innerHTML=avatarUrl
-    ?`<img class="res-avatar" src="${avatarUrl}" alt="avatar" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'res-avatar-ph',textContent:'🥓'}))">`
-    :`<div class="res-avatar-ph">🥓</div>`;
-
-  document.getElementById('resName').textContent=user.displayName||user.name;
-  document.getElementById('resHandle').textContent=`@${user.name} · ID ${user.id}`;
-
-  const chips=document.getElementById('resChips');
-  chips.innerHTML=`<span class="chip chip-green">✅ Verified</span>`;
-  if(robloxBadges.length) chips.innerHTML+=`<span class="chip chip-gold">⭐ ${esc(robloxBadges[0].name)}</span>`;
-  if(user.isBanned) chips.innerHTML+=`<span class="chip chip-red">🚫 Banned</span>`;
-
-  const bio=document.getElementById('resBio');
-  if(user.description?.trim()){
-    bio.textContent=`"${user.description.slice(0,200)}${user.description.length>200?'…':''}"`;
-    bio.style.display='block';
-  } else bio.style.display='none';
-
-  document.getElementById('sBadges').textContent=badges.length+(badges.length===25?'+':'');
-  document.getElementById('sGroups').textContent=groups.length+(groups.length===25?'+':'');
-  document.getElementById('sInv').textContent=inventory.length+(inventory.length===25?'+':'');
-
-  // badges
-  document.getElementById('rp-badges').innerHTML=badges.length
-    ? badges.map(b=>`<div class="r-row"><div class="r-icon red">🏅</div><div style="flex:1;min-width:0"><div class="r-name">${esc(b.name)}</div><div class="r-sub">${esc(b.description||'No description')}</div></div></div>`).join('')
-    : `<div class="empty-panel">No badges found — may be private or none earned yet.</div>`;
-
-  // groups
-  document.getElementById('rp-groups').innerHTML=groups.length
-    ? groups.map(g=>`<div class="r-row"><div class="r-icon purple">👥</div><div style="flex:1;min-width:0"><div class="r-name">${esc(g.group.name)}</div><div class="r-sub">Role: ${esc(g.role?.name||'Member')}${g.group.memberCount?' · '+g.group.memberCount.toLocaleString()+' members':''}</div></div><div class="r-badge">Rank ${esc(g.role?.rank??'?')}</div></div>`).join('')
-    : `<div class="empty-panel">No groups found or profile is private.</div>`;
-
-  // inventory
-  document.getElementById('rp-inventory').innerHTML=inventory.length
-    ? inventory.map(i=>`<div class="r-row"><div class="r-icon teal">🎒</div><div style="flex:1;min-width:0"><div class="r-name">${esc(i.name||'Item '+i.assetId)}</div><div class="r-sub">Asset ID: ${esc(i.assetId)}</div></div></div>`).join('')
-    : `<div class="empty-panel">Inventory is private or no public items found.</div>`;
-
-  // official badges
-  const obs=document.getElementById('ob-section');
-  if(robloxBadges.length){
-    document.getElementById('ob-pills').innerHTML=robloxBadges.map(rb=>`<span class="ob-pill">⭐ ${esc(rb.name)}</span>`).join('');
-    obs.style.display='block';
-  } else obs.style.display='none';
-
-  const res=document.getElementById('results');
-  res.style.display='block';
-  res.scrollIntoView({behavior:'smooth',block:'start'});
-  // re-trigger animation
-  const rc=document.getElementById('resCard');
-  rc.style.animation='none';void rc.offsetWidth;rc.style.animation='fadeUp .5s ease both';
-}
-
-// ─── tab switch ──────────────────────────────────────────────────
-function resTab(name,el){
-  document.querySelectorAll('.res-tab').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on');
-  document.querySelectorAll('.res-panel').forEach(p=>p.classList.remove('on'));
-  document.getElementById('rp-'+name).classList.add('on');
-}
-</script>
-</body>
-</html>
+              <
