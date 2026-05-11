@@ -405,3 +405,375 @@ footer{
         <div class="feat-icon">🏅</div>
         <div class="feat-title">Badge Scanner</div>
         <div class="feat-desc">Pulls 
+         </div>
+      <div class="feat">
+        <div class="feat-icon">👥</div>
+        <div class="feat-title">Group Check</div>
+        <div class="feat-desc">Lists all communities you're in, your role, rank, and member counts.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🎒</div>
+        <div class="feat-title">Inventory Peek</div>
+        <div class="feat-desc">Displays public gear, hats, and accessories from your catalog.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">⭐</div>
+        <div class="feat-title">Official Badges</div>
+        <div class="feat-desc">Shows Roblox-issued badges like Veteran, Administrator, and more.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VERIFY CARD ───────────────────────────────────────── -->
+<section class="section" id="verify" style="padding-top:0">
+  <div class="section-inner">
+    <div class="card-wrap">
+      <div class="card" id="mainCard">
+
+        <!-- card header -->
+        <div class="card-header">
+          <div class="mascot">
+            <svg viewBox="0 0 80 110" width="60" height="86">
+              <defs>
+                <linearGradient id="mg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#e74c3c"/><stop offset="50%" stop-color="#f5cba7"/><stop offset="100%" stop-color="#c0392b"/>
+                </linearGradient>
+                <linearGradient id="cg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f4d03f"/><stop offset="100%" stop-color="#d4ac0d"/>
+                </linearGradient>
+              </defs>
+              <polygon points="25,16 30,6 37,13 44,3 51,13 58,6 63,16" fill="url(#cg2)"/>
+              <circle cx="37" cy="12" r="2.5" fill="#e74c3c"/><circle cx="25" cy="15" r="1.8" fill="#e74c3c"/><circle cx="63" cy="15" r="1.8" fill="#e74c3c"/>
+              <path d="M20,20 Q15,33 18,56 Q20,70 22,80 Q38,87 58,80 Q60,70 62,56 Q65,33 60,20 Q45,13 35,16 Q25,13 20,20 Z" fill="url(#mg2)"/>
+              <path d="M22,28 Q38,23 58,28" stroke="#c0392b" stroke-width="1.8" fill="none" opacity="0.5"/>
+              <path d="M22,40 Q38,35 58,40" stroke="#c0392b" stroke-width="1.8" fill="none" opacity="0.5"/>
+              <path d="M22,52 Q38,47 58,52" stroke="#c0392b" stroke-width="1.8" fill="none" opacity="0.5"/>
+              <rect x="26" y="33" width="11" height="7" rx="3" fill="#111"/><rect x="41" y="33" width="11" height="7" rx="3" fill="#111"/>
+              <line x1="37" y1="37" x2="41" y2="37" stroke="#111" stroke-width="1.5"/>
+              <path d="M30,52 Q38,59 50,52" stroke="#7b241c" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <path d="M20,43 Q10,48 12,55" stroke="#e74c3c" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M60,43 Q70,48 68,55" stroke="#e74c3c" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M30,80 Q28,92 30,103" stroke="#c0392b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M50,80 Q52,92 50,103" stroke="#c0392b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="card-header-text">
+            <div class="card-header-label">🥓 BaconVerify</div>
+            <div class="card-header-title">Let's get you <span>verified</span></div>
+            <div class="card-header-sub">Paste your User ID below — we scan the rest.</div>
+          </div>
+        </div>
+
+        <!-- steps -->
+        <div class="steps">
+
+          <!-- step 1 -->
+          <div class="step">
+            <div class="step-num" id="sn1">1</div>
+            <div class="step-body">
+              <div class="step-title">Enter your Roblox User ID</div>
+              <div class="step-desc">Numbers only — find it in your profile URL.</div>
+              <input class="field" id="userId" type="text" inputmode="numeric" placeholder="e.g. 1  or  156  or  261" oninput="onIdInput()"/>
+              <div class="field-hint">roblox.com/users/<span id="idPreview" style="color:rgba(232,52,74,.6)">YOUR_ID</span>/profile</div>
+            </div>
+          </div>
+
+          <!-- step 2 -->
+          <div class="step">
+            <div class="step-num" id="sn2">2</div>
+            <div class="step-body">
+              <div class="step-title">Human verification</div>
+              <div class="step-desc">Quick check — click the box below.</div>
+              <div class="hcap-box" id="hcapBox" onclick="solveCaptcha()">
+                <div class="hcap-left">
+                  <div class="hcap-check"><div class="hcap-check-inner"></div></div>
+                  <span class="hcap-label" id="hcapLabel">I am not a robot</span>
+                </div>
+                <div class="hcap-right">
+                  <div class="hcap-logo">🔒</div>
+                  <div class="hcap-text">hCaptcha<br>Privacy · Terms</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- step 3 -->
+          <div class="step">
+            <div class="step-num" id="sn3">3</div>
+            <div class="step-body">
+              <div class="step-title">Scan &amp; verify</div>
+              <div class="step-desc">We'll pull your badges, groups, and inventory in real-time.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="err" id="errBox"></div>
+
+        <div class="card-footer">
+          <button class="verify-btn" id="verifyBtn" onclick="startScan()">
+            <div class="btn-inner">🥓 SCAN &amp; VERIFY ME</div>
+          </button>
+          <div class="tos-line">🔒 By verifying you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></div>
+        </div>
+
+      </div><!-- /card -->
+
+      <!-- TRUST STRIP -->
+      <div class="trust">
+        <div class="trust-item"><div class="trust-icon">🛡️</div><div><div class="trust-label">Secure</div><div class="trust-sub">Read-only API</div></div></div>
+        <div class="trust-item"><div class="trust-icon">⚡</div><div><div class="trust-label">Instant</div><div class="trust-sub">Under 3 seconds</div></div></div>
+        <div class="trust-item"><div class="trust-icon">🔓</div><div><div class="trust-label">No Login</div><div class="trust-sub">Public data only</div></div></div>
+        <div class="trust-item"><div class="trust-icon">🥓</div><div><div class="trust-label">Bacon</div><div class="trust-sub">Energy powered</div></div></div>
+      </div>
+    </div><!-- /card-wrap -->
+  </div>
+</section>
+
+<!-- ── RESULTS ───────────────────────────────────────────── -->
+<div id="results" style="padding-bottom:60px">
+  <div style="max-width:560px;margin:0 auto;padding:0 24px">
+
+    <div style="font-family:'Archivo Black',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:flex;align-items:center;gap:10px">
+      <div style="height:1px;flex:1;background:var(--border2)"></div>
+      SCAN RESULTS
+      <div style="height:1px;flex:1;background:var(--border2)"></div>
+    </div>
+
+    <!-- profile -->
+    <div class="res-card" id="resCard">
+      <div class="res-profile">
+        <div id="resAvatarWrap"></div>
+        <div style="min-width:0">
+          <div class="res-name" id="resName"></div>
+          <div class="res-handle" id="resHandle"></div>
+          <div id="resChips"></div>
+        </div>
+      </div>
+      <div id="resBio" class="res-bio" style="display:none"></div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="sBadges">—</div><div class="res-stat-l">Badges</div></div>
+        <div class="res-stat"><div class="res-stat-n" id="sGroups">—</div><div class="res-stat-l">Groups</div></div>
+        <div class="res-stat"><div class="res-stat-n" id="sInv">—</div><div class="res-stat-l">Inventory</div></div>
+      </div>
+
+      <!-- tabs -->
+      <div class="res-tabs">
+        <div class="res-tab on" onclick="resTab('badges',this)">🏅 Badges</div>
+        <div class="res-tab" onclick="resTab('groups',this)">👥 Groups</div>
+        <div class="res-tab" onclick="resTab('inventory',this)">🎒 Inventory</div>
+      </div>
+      <div class="res-panel on" id="rp-badges"></div>
+      <div class="res-panel" id="rp-groups"></div>
+      <div class="res-panel" id="rp-inventory"></div>
+
+      <div id="ob-section" class="ob-wrap" style="display:none">
+        <div class="ob-label">⭐ Official Roblox Badges</div>
+        <div class="ob-pills" id="ob-pills"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer>
+  <div class="foot-logo">Bacon<span>Verify</span></div>
+  <div class="foot-links">
+    <a class="foot-link" href="#">Privacy</a>
+    <a class="foot-link" href="#">Terms</a>
+    <a class="foot-link" href="#">API</a>
+    <a class="foot-link" href="#">GitHub</a>
+  </div>
+  <div class="foot-copy">© 2026 BaconVerify — Not affiliated with Roblox Corp.</div>
+</footer>
+
+<script>
+// ─── state ──────────────────────────────────────────────────────
+let captchaSolved = false;
+
+function scrollToVerify(){ document.getElementById('verify').scrollIntoView({behavior:'smooth'}) }
+
+// ─── id input ───────────────────────────────────────────────────
+function onIdInput(){
+  const v = document.getElementById('userId').value.trim();
+  document.getElementById('idPreview').textContent = v || 'YOUR_ID';
+  if(v) markStep(1);
+  hideErr();
+}
+
+// ─── fake captcha ────────────────────────────────────────────────
+function solveCaptcha(){
+  if(captchaSolved) return;
+  // quick visual "loading" then resolve
+  const box   = document.getElementById('hcapBox');
+  const label = document.getElementById('hcapLabel');
+  label.textContent = 'Verifying…';
+  setTimeout(()=>{
+    captchaSolved = true;
+    box.classList.add('solved');
+    label.textContent = 'Verified!';
+    markStep(2);
+  }, 700 + Math.random()*400);
+}
+
+// ─── step markers ───────────────────────────────────────────────
+function markStep(n){
+  const el = document.getElementById('sn'+n);
+  el.classList.add('done');
+  el.textContent='';
+}
+
+// ─── error ──────────────────────────────────────────────────────
+function showErr(msg){const b=document.getElementById('errBox');b.textContent='⚠️ '+msg;b.style.display='block'}
+function hideErr(){document.getElementById('errBox').style.display='none'}
+
+// ─── proxy fetch ─────────────────────────────────────────────────
+async function rbx(url){
+  const proxies=[
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  ];
+  for(const p of proxies){
+    try{
+      const r=await fetch(p,{signal:AbortSignal.timeout(9000)});
+      if(!r.ok) continue;
+      return await r.json();
+    }catch{}
+  }
+  throw new Error('Could not reach Roblox API — both proxies failed. Try again in a moment.');
+}
+
+// ─── set button state ────────────────────────────────────────────
+function setBtn(loading){
+  const b=document.getElementById('verifyBtn');
+  b.disabled=loading;
+  b.querySelector('.btn-inner').innerHTML=loading
+    ? '<div class="spin"></div> Sizzling…'
+    : '🥓 SCAN &amp; VERIFY ME';
+  b.classList.toggle('loading',loading);
+}
+
+// ─── main scan ───────────────────────────────────────────────────
+async function startScan(){
+  hideErr();
+  const id=document.getElementById('userId').value.trim();
+  if(!id||!/^\d+$/.test(id)){
+    showErr('Please enter a valid numeric Roblox User ID.');
+    shake(); return;
+  }
+  if(!captchaSolved){
+    showErr('Please complete the verification check first!');
+    shake(); return;
+  }
+  setBtn(true);
+  document.getElementById('results').style.display='none';
+
+  try{
+    const [userRes,badgesRes,groupsRes,inventoryRes,robloxBadgesRes]=await Promise.all([
+      rbx(`https://users.roblox.com/v1/users/${id}`),
+      rbx(`https://badges.roblox.com/v1/users/${id}/badges?limit=25&sortOrder=Desc`),
+      rbx(`https://groups.roblox.com/v1/users/${id}/groups/roles`),
+      rbx(`https://inventory.roblox.com/v2/users/${id}/inventory?assetTypes=8,17,18,19&limit=25&sortOrder=Desc`),
+      rbx(`https://accountinformation.roblox.com/v1/users/${id}/roblox-badges`),
+    ]);
+
+    if(userRes.errors||!userRes.name) throw new Error(userRes.errors?.[0]?.message||'User not found — double-check the ID.');
+
+    let avatarUrl=null;
+    try{
+      const av=await rbx(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png&isCircular=false`);
+      avatarUrl=av?.data?.[0]?.imageUrl||null;
+    }catch{}
+
+    markStep(3);
+    render({
+      user:userRes, avatarUrl,
+      badges:badgesRes?.data||[],
+      groups:groupsRes?.data||[],
+      inventory:inventoryRes?.data||[],
+      robloxBadges:Array.isArray(robloxBadgesRes)?robloxBadgesRes:[],
+    });
+
+  }catch(e){
+    showErr(e.message||'Something went wrong. Try again.');
+  }finally{
+    setBtn(false);
+  }
+}
+
+function shake(){
+  const c=document.getElementById('mainCard');
+  c.classList.add('shake');
+  setTimeout(()=>c.classList.remove('shake'),600);
+}
+
+// ─── render results ──────────────────────────────────────────────
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function render({user,avatarUrl,badges,groups,inventory,robloxBadges}){
+  // avatar
+  const aw=document.getElementById('resAvatarWrap');
+  aw.innerHTML=avatarUrl
+    ?`<img class="res-avatar" src="${avatarUrl}" alt="avatar" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'res-avatar-ph',textContent:'🥓'}))">`
+    :`<div class="res-avatar-ph">🥓</div>`;
+
+  document.getElementById('resName').textContent=user.displayName||user.name;
+  document.getElementById('resHandle').textContent=`@${user.name} · ID ${user.id}`;
+
+  const chips=document.getElementById('resChips');
+  chips.innerHTML=`<span class="chip chip-green">✅ Verified</span>`;
+  if(robloxBadges.length) chips.innerHTML+=`<span class="chip chip-gold">⭐ ${esc(robloxBadges[0].name)}</span>`;
+  if(user.isBanned) chips.innerHTML+=`<span class="chip chip-red">🚫 Banned</span>`;
+
+  const bio=document.getElementById('resBio');
+  if(user.description?.trim()){
+    bio.textContent=`"${user.description.slice(0,200)}${user.description.length>200?'…':''}"`;
+    bio.style.display='block';
+  } else bio.style.display='none';
+
+  document.getElementById('sBadges').textContent=badges.length+(badges.length===25?'+':'');
+  document.getElementById('sGroups').textContent=groups.length+(groups.length===25?'+':'');
+  document.getElementById('sInv').textContent=inventory.length+(inventory.length===25?'+':'');
+
+  // badges
+  document.getElementById('rp-badges').innerHTML=badges.length
+    ? badges.map(b=>`<div class="r-row"><div class="r-icon red">🏅</div><div style="flex:1;min-width:0"><div class="r-name">${esc(b.name)}</div><div class="r-sub">${esc(b.description||'No description')}</div></div></div>`).join('')
+    : `<div class="empty-panel">No badges found — may be private or none earned yet.</div>`;
+
+  // groups
+  document.getElementById('rp-groups').innerHTML=groups.length
+    ? groups.map(g=>`<div class="r-row"><div class="r-icon purple">👥</div><div style="flex:1;min-width:0"><div class="r-name">${esc(g.group.name)}</div><div class="r-sub">Role: ${esc(g.role?.name||'Member')}${g.group.memberCount?' · '+g.group.memberCount.toLocaleString()+' members':''}</div></div><div class="r-badge">Rank ${esc(g.role?.rank??'?')}</div></div>`).join('')
+    : `<div class="empty-panel">No groups found or profile is private.</div>`;
+
+  // inventory
+  document.getElementById('rp-inventory').innerHTML=inventory.length
+    ? inventory.map(i=>`<div class="r-row"><div class="r-icon teal">🎒</div><div style="flex:1;min-width:0"><div class="r-name">${esc(i.name||'Item '+i.assetId)}</div><div class="r-sub">Asset ID: ${esc(i.assetId)}</div></div></div>`).join('')
+    : `<div class="empty-panel">Inventory is private or no public items found.</div>`;
+
+  // official badges
+  const obs=document.getElementById('ob-section');
+  if(robloxBadges.length){
+    document.getElementById('ob-pills').innerHTML=robloxBadges.map(rb=>`<span class="ob-pill">⭐ ${esc(rb.name)}</span>`).join('');
+    obs.style.display='block';
+  } else obs.style.display='none';
+
+  const res=document.getElementById('results');
+  res.style.display='block';
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+  // re-trigger animation
+  const rc=document.getElementById('resCard');
+  rc.style.animation='none';void rc.offsetWidth;rc.style.animation='fadeUp .5s ease both';
+}
+
+// ─── tab switch ──────────────────────────────────────────────────
+function resTab(name,el){
+  document.querySelectorAll('.res-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.res-panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('rp-'+name).classList.add('on');
+}
+</script>
+</body>
+</html>
